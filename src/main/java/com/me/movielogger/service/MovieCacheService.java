@@ -19,7 +19,7 @@ public class MovieCacheService {
     }
 
     public Movie testDb(String movieTitle) {
-        return movieCacheDao.findById(movieTitle).get();
+        return movieCacheDao.findByTitle(movieTitle);
     }
 
 }

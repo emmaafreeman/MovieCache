@@ -1,33 +1,34 @@
 package com.me.movielogger.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import org.hibernate.collection.spi.PersistentBag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import java.util.ArrayList;
 
 @Entity
+@Table(name="movies")
 public class Movie {
 
     @JsonProperty("Id")
     @Id
-    private String id;
+    private int id;
     @JsonProperty("Title") private String title;
     @JsonProperty("Year") private String year;
     @JsonProperty("Genre") private String genre;
     @JsonProperty("Director") private String director;
     @JsonProperty("Plot") private String plot;
     @JsonProperty("Ratings")
-    @ManyToOne //START HERE TOMORROW
-    private ArrayList<Rating> ratings;
+    @OneToMany(mappedBy = "movie")
+    private PersistentBag<Rating> ratings;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -71,20 +72,26 @@ public class Movie {
         this.plot = plot;
     }
 
-    public ArrayList<Rating> getRatings() {
+    public PersistentBag<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(ArrayList<Rating> ratings) {
+    public void setRatings(PersistentBag<Rating> ratings) {
         this.ratings = ratings;
     }
 }
 
 @Entity
+@Table(name="ratings")
 class Rating {
     @JsonProperty("Id")
     @Id
-    private String id;
+    private int id;
+
+    @JsonIgnore()
+    @ManyToOne()
+    @JoinColumn(name="movie_id", referencedColumnName="id", nullable=false)
+    public Movie movie;
 
     @JsonProperty("Source") private String source;
     @JsonProperty("Value") private String value;
@@ -103,5 +110,13 @@ class Rating {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
