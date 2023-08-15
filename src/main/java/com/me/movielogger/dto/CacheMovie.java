@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import org.hibernate.collection.spi.PersistentBag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-import java.util.ArrayList;
-
 @Entity
 @Table(name="movies")
 public class Movie {
@@ -21,7 +18,7 @@ public class Movie {
     @JsonProperty("Director") private String director;
     @JsonProperty("Plot") private String plot;
     @JsonProperty("Ratings")
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch=FetchType.EAGER)
     private PersistentBag<Rating> ratings;
 
     public int getId() {
@@ -89,7 +86,7 @@ class Rating {
     private int id;
 
     @JsonIgnore()
-    @ManyToOne()
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="movie_id", referencedColumnName="id", nullable=false)
     public Movie movie;
 
