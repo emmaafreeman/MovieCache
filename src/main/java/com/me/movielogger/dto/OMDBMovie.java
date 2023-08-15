@@ -1,16 +1,13 @@
 package com.me.movielogger.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import org.hibernate.collection.spi.PersistentBag;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-@Table(name="movies")
-public class Movie {
+import java.util.List;
+
+public class OMDBMovie {
 
     @JsonProperty("Id")
-    @Id
     private int id;
     @JsonProperty("Title") private String title;
     @JsonProperty("Year") private String year;
@@ -18,8 +15,17 @@ public class Movie {
     @JsonProperty("Director") private String director;
     @JsonProperty("Plot") private String plot;
     @JsonProperty("Ratings")
-    @OneToMany(mappedBy = "movie", fetch=FetchType.EAGER)
-    private PersistentBag<Rating> ratings;
+    private List<OMDBRating> ratings;
+
+    public OMDBMovie(int id, String title, String year, String genre, String director, String plot, List<OMDBRating> ratings) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.genre = genre;
+        this.director = director;
+        this.plot = plot;
+        this.ratings = ratings;
+    }
 
     public int getId() {
         return id;
@@ -69,26 +75,32 @@ public class Movie {
         this.plot = plot;
     }
 
-    public PersistentBag<Rating> getRatings() {
+    public List<OMDBRating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(PersistentBag<Rating> ratings) {
+    public void setRatings(PersistentBag<OMDBRating> ratings) {
         this.ratings = ratings;
+    }
+
+    public CacheMovie toCacheMovie() {
+        return new CacheMovie(this.id, this.title, this.year, this.genre, this.director, this.plot, this.ratings.stream().map(OMDBRating::toCacheRating).toList());
     }
 }
 
-@Entity
-@Table(name="ratings")
-class Rating {
+class OMDBRating {
     @JsonProperty("Id")
-    @Id
     private int id;
 
-    @JsonIgnore()
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="movie_id", referencedColumnName="id", nullable=false)
-    public Movie movie;
+    //@JsonIgnore()
+    public OMDBMovie omdbMovie;
+
+    public OMDBRating(int id, OMDBMovie omdbMovie, String source, String value) {
+        this.id = id;
+        this.omdbMovie = omdbMovie;
+        this.source = source;
+        this.value = value;
+    }
 
     @JsonProperty("Source") private String source;
     @JsonProperty("Value") private String value;
@@ -115,5 +127,9 @@ class Rating {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public CacheRating toCacheRating() {
+        return new CacheRating(this.id, null, this.source, this.value);
     }
 }
