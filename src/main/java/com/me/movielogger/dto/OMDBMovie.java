@@ -1,5 +1,7 @@
 package com.me.movielogger.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.collection.spi.PersistentBag;
 
@@ -15,7 +17,11 @@ public class OMDBMovie {
     @JsonProperty("Director") private String director;
     @JsonProperty("Plot") private String plot;
     @JsonProperty("Ratings")
+//    @JsonManagedReference
     private List<OMDBRating> ratings;
+
+    public OMDBMovie() {
+    }
 
     public OMDBMovie(int id, String title, String year, String genre, String director, String plot, List<OMDBRating> ratings) {
         this.id = id;
@@ -79,7 +85,7 @@ public class OMDBMovie {
         return ratings;
     }
 
-    public void setRatings(PersistentBag<OMDBRating> ratings) {
+    public void setRatings(List<OMDBRating> ratings) {
         this.ratings = ratings;
     }
 
@@ -90,10 +96,14 @@ public class OMDBMovie {
 
 class OMDBRating {
     @JsonProperty("Id")
+//    @JsonBackReference
     private int id;
 
     //@JsonIgnore()
     public OMDBMovie omdbMovie;
+
+    public OMDBRating() {
+    }
 
     public OMDBRating(int id, OMDBMovie omdbMovie, String source, String value) {
         this.id = id;
