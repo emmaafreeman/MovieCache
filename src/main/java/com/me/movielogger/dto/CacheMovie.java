@@ -1,5 +1,7 @@
 package com.me.movielogger.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.collection.spi.PersistentBag;
 
@@ -16,7 +18,8 @@ public class CacheMovie {
     private String genre;
     private String director;
     private String plot;
-    @OneToMany()
+    @OneToMany(mappedBy = "cacheMovie")
+    @JsonManagedReference
     private List<CacheRating> ratings;
 
     public CacheMovie() {
@@ -84,7 +87,7 @@ public class CacheMovie {
         return ratings;
     }
 
-    public void setRatings(PersistentBag<CacheRating> ratings) {
+    public void setRatings(List<CacheRating> ratings) {
         this.ratings = ratings;
     }
 
@@ -101,6 +104,7 @@ class CacheRating {
 
     @ManyToOne()
     @JoinColumn(name="movie_id", referencedColumnName="id", nullable=false)
+    @JsonBackReference
     public CacheMovie cacheMovie;
 
     private String source;
