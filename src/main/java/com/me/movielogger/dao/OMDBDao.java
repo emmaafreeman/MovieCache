@@ -1,6 +1,6 @@
 package com.me.movielogger.dao;
 
-import com.me.movielogger.dto.Movie;
+import com.me.movielogger.dto.OMDBMovie;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
@@ -20,10 +20,10 @@ public class OMDBDao {
     private final Logger logger = getLogger(OMDBDao.class);
 
 
-    public Movie findMovieByTitle(String movieTitle) {
+    public OMDBMovie findNewMovieByTitle(String movieTitle) {
         RequestEntity<Void> request = RequestEntity.get(movieDetailsUrl.expand(movieTitle)).build();
         logger.info("Sending request to OMDB: " + request);
-        ResponseEntity<Movie> response = httpClient.exchange(request, Movie.class);
+        ResponseEntity<OMDBMovie> response = httpClient.exchange(request, OMDBMovie.class);
         return response.getBody();
     }
 }

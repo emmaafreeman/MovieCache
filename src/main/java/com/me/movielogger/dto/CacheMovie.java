@@ -1,28 +1,36 @@
 package com.me.movielogger.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.collection.spi.PersistentBag;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="movies")
-public class Movie {
+public class CacheMovie {
 
-    @JsonProperty("Id")
     @Id
     private int id;
-    @JsonProperty("Title") private String title;
-    @JsonProperty("Year") private String year;
-    @JsonProperty("Genre") private String genre;
-    @JsonProperty("Director") private String director;
-    @JsonProperty("Plot") private String plot;
-    @JsonProperty("Ratings")
-    @OneToMany(mappedBy = "movie")
-    private PersistentBag<Rating> ratings;
+    private String title;
+    private String year;
+    private String genre;
+    private String director;
+    private String plot;
+    @OneToMany()
+    private List<CacheRating> ratings;
+
+    public CacheMovie() {
+    }
+
+    public CacheMovie(int id, String title, String year, String genre, String director, String plot, List<CacheRating> ratings) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.genre = genre;
+        this.director = director;
+        this.plot = plot;
+        this.ratings = ratings;
+    }
 
     public int getId() {
         return id;
@@ -72,29 +80,41 @@ public class Movie {
         this.plot = plot;
     }
 
-    public PersistentBag<Rating> getRatings() {
+    public List<CacheRating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(PersistentBag<Rating> ratings) {
+    public void setRatings(PersistentBag<CacheRating> ratings) {
         this.ratings = ratings;
+    }
+
+    public OMDBMovie toOMDBMovie() {
+        return new OMDBMovie(this.id, this.title, this.year, this.genre, this.director, this.plot, this.ratings.stream().map(CacheRating::toOMDBRating).toList());
     }
 }
 
 @Entity
 @Table(name="ratings")
-class Rating {
-    @JsonProperty("Id")
+class CacheRating {
     @Id
     private int id;
 
-    @JsonIgnore()
     @ManyToOne()
     @JoinColumn(name="movie_id", referencedColumnName="id", nullable=false)
-    public Movie movie;
+    public CacheMovie cacheMovie;
 
-    @JsonProperty("Source") private String source;
-    @JsonProperty("Value") private String value;
+    private String source;
+    private String value;
+
+    CacheRating() {
+    }
+
+    public CacheRating(int id, CacheMovie cacheMovie, String source, String value) {
+        this.id = id;
+        this.cacheMovie = cacheMovie;
+        this.source = source;
+        this.value = value;
+    }
 
     public String getSource() {
         return source;
@@ -118,5 +138,9 @@ class Rating {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public OMDBRating toOMDBRating() {
+        return new OMDBRating(this.id, null, this.source, this.value);
     }
 }

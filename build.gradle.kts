@@ -21,8 +21,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("org.hibernate:hibernate-core:6.1.7.Final")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-bot-starter-test")
 }
 
 tasks.withType<Test> {
