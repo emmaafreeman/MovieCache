@@ -9,28 +9,23 @@ import java.util.List;
 
 public class OMDBMovie {
 
-    @JsonProperty("Id")
-    private int id;
+    @JsonProperty("Id") private int id;
     @JsonProperty("Title") private String title;
     @JsonProperty("Year") private String year;
     @JsonProperty("Genre") private String genre;
     @JsonProperty("Director") private String director;
     @JsonProperty("Plot") private String plot;
-    @JsonProperty("Ratings")
-//    @JsonManagedReference
-    private List<OMDBRating> ratings;
 
     public OMDBMovie() {
     }
 
-    public OMDBMovie(int id, String title, String year, String genre, String director, String plot, List<OMDBRating> ratings) {
+    public OMDBMovie(int id, String title, String year, String genre, String director, String plot) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
         this.director = director;
         this.plot = plot;
-        this.ratings = ratings;
     }
 
     public int getId() {
@@ -81,65 +76,7 @@ public class OMDBMovie {
         this.plot = plot;
     }
 
-    public List<OMDBRating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<OMDBRating> ratings) {
-        this.ratings = ratings;
-    }
-
     public CacheMovie toCacheMovie() {
-        return new CacheMovie(this.id, this.title, this.year, this.genre, this.director, this.plot, this.ratings.stream().map(OMDBRating::toCacheRating).toList());
-    }
-}
-
-class OMDBRating {
-    @JsonProperty("Id")
-//    @JsonBackReference
-    private int id;
-
-    //@JsonIgnore()
-    public OMDBMovie omdbMovie;
-
-    public OMDBRating() {
-    }
-
-    public OMDBRating(int id, OMDBMovie omdbMovie, String source, String value) {
-        this.id = id;
-        this.omdbMovie = omdbMovie;
-        this.source = source;
-        this.value = value;
-    }
-
-    @JsonProperty("Source") private String source;
-    @JsonProperty("Value") private String value;
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public CacheRating toCacheRating() {
-        return new CacheRating(this.id, null, this.source, this.value);
+        return new CacheMovie(this.id, this.title, this.year, this.genre, this.director, this.plot);
     }
 }
