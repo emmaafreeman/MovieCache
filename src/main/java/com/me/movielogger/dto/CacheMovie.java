@@ -18,21 +18,17 @@ public class CacheMovie {
     private String genre;
     private String director;
     private String plot;
-    @OneToMany(mappedBy = "cacheMovie")
-    @JsonManagedReference
-    private List<CacheRating> ratings;
 
     public CacheMovie() {
     }
 
-    public CacheMovie(int id, String title, String year, String genre, String director, String plot, List<CacheRating> ratings) {
+    public CacheMovie(int id, String title, String year, String genre, String director, String plot) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
         this.director = director;
         this.plot = plot;
-        this.ratings = ratings;
     }
 
     public int getId() {
@@ -83,68 +79,7 @@ public class CacheMovie {
         this.plot = plot;
     }
 
-    public List<CacheRating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<CacheRating> ratings) {
-        this.ratings = ratings;
-    }
-
     public OMDBMovie toOMDBMovie() {
-        return new OMDBMovie(this.id, this.title, this.year, this.genre, this.director, this.plot, this.ratings.stream().map(CacheRating::toOMDBRating).toList());
-    }
-}
-
-@Entity
-@Table(name="ratings")
-class CacheRating {
-    @Id
-    private int id;
-
-    @ManyToOne()
-    @JoinColumn(name="movie_id", referencedColumnName="id", nullable=false)
-    @JsonBackReference
-    public CacheMovie cacheMovie;
-
-    private String source;
-    private String value;
-
-    CacheRating() {
-    }
-
-    public CacheRating(int id, CacheMovie cacheMovie, String source, String value) {
-        this.id = id;
-        this.cacheMovie = cacheMovie;
-        this.source = source;
-        this.value = value;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public OMDBRating toOMDBRating() {
-        return new OMDBRating(this.id, null, this.source, this.value);
+        return new OMDBMovie(this.id, this.title, this.year, this.genre, this.director, this.plot);
     }
 }

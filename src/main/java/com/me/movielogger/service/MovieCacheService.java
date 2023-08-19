@@ -28,7 +28,7 @@ public class MovieCacheService {
             OMDBMovie newMovie = omdbDao.findNewMovieByTitle(movieTitle);
             movieCacheDao.save(newMovie.toCacheMovie());
             logger.info("Sending request to OMDB for: " + movieTitle);
-            return newMovie.toCacheMovie();
+            return movieCacheDao.findByTitle(movieTitle);
         } else {
             return movieSearch;
         }
