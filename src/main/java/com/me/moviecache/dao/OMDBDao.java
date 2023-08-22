@@ -1,6 +1,6 @@
-package com.me.movielogger.dao;
+package com.me.moviecache.dao;
 
-import com.me.movielogger.dto.OMDBMovie;
+import com.me.moviecache.dto.OMDBMovie;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;

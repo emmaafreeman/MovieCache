@@ -1,7 +1,7 @@
-package com.me.movielogger.controller;
+package com.me.moviecache.controller;
 
-import com.me.movielogger.dto.CacheMovie;
-import com.me.movielogger.service.MovieCacheService;
+import com.me.moviecache.dto.CacheMovie;
+import com.me.moviecache.service.MovieCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

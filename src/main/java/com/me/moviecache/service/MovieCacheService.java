@@ -1,9 +1,9 @@
-package com.me.movielogger.service;
+package com.me.moviecache.service;
 
-import com.me.movielogger.dao.MovieCacheDao;
-import com.me.movielogger.dao.OMDBDao;
-import com.me.movielogger.dto.OMDBMovie;
-import com.me.movielogger.dto.CacheMovie;
+import com.me.moviecache.dao.MovieCacheDao;
+import com.me.moviecache.dao.OMDBDao;
+import com.me.moviecache.dto.OMDBMovie;
+import com.me.moviecache.dto.CacheMovie;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

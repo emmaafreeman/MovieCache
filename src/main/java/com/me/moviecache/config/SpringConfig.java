@@ -1,4 +1,4 @@
-package com.me.movielogger.config;
+package com.me.moviecache.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

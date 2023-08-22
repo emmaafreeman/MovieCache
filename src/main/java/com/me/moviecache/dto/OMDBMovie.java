@@ -1,4 +1,4 @@
-package com.me.movielogger.dto;
+package com.me.moviecache.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

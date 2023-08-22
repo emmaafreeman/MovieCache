@@ -1,4 +1,4 @@
-package com.me.movielogger;
+package com.me.moviecache;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
