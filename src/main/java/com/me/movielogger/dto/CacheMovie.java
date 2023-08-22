@@ -1,11 +1,6 @@
 package com.me.movielogger.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.hibernate.collection.spi.PersistentBag;
-
-import java.util.List;
 
 @Entity
 @Table(name="movies")
@@ -19,8 +14,7 @@ public class CacheMovie {
     private String director;
     private String plot;
 
-    public CacheMovie() {
-    }
+    public CacheMovie() { }
 
     public CacheMovie(int id, String title, String year, String genre, String director, String plot) {
         this.id = id;

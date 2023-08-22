@@ -21,13 +21,14 @@ public class MovieCacheService {
     private final Logger logger = getLogger(MovieCacheService.class);
 
     public CacheMovie findMovieByTitleThroughCache(String movieTitle) {
+        logger.info("Looking for " + movieTitle + " in cache");
         CacheMovie movieSearch = movieCacheDao.findByTitle(movieTitle);
-        logger.info("Looking for " + movieTitle + " in db");
 
         if (movieSearch == null) {
-            OMDBMovie newMovie = omdbDao.findNewMovieByTitle(movieTitle);
-            movieCacheDao.save(newMovie.toCacheMovie());
             logger.info("Sending request to OMDB for: " + movieTitle);
+            OMDBMovie newMovie = omdbDao.findNewMovieByTitle(movieTitle);
+            logger.info("Saving " + movieTitle + " to cache");
+            movieCacheDao.save(newMovie.toCacheMovie());
             return movieCacheDao.findByTitle(movieTitle);
         } else {
             return movieSearch;

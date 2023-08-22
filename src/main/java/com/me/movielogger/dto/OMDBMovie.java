@@ -1,23 +1,28 @@
 package com.me.movielogger.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.collection.spi.PersistentBag;
-
-import java.util.List;
 
 public class OMDBMovie {
 
-    @JsonProperty("Id") private int id;
-    @JsonProperty("Title") private String title;
-    @JsonProperty("Year") private String year;
-    @JsonProperty("Genre") private String genre;
-    @JsonProperty("Director") private String director;
-    @JsonProperty("Plot") private String plot;
+    @JsonProperty("Id")
+    private int id;
 
-    public OMDBMovie() {
-    }
+    @JsonProperty("Title")
+    private String title;
+
+    @JsonProperty("Year")
+    private String year;
+
+    @JsonProperty("Genre")
+    private String genre;
+
+    @JsonProperty("Director")
+    private String director;
+
+    @JsonProperty("Plot")
+    private String plot;
+
+    public OMDBMovie() { }
 
     public OMDBMovie(int id, String title, String year, String genre, String director, String plot) {
         this.id = id;

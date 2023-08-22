@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path="/")
+@RequestMapping(path = "/")
 public class MovieController {
 
     @Autowired
@@ -19,9 +19,4 @@ public class MovieController {
     public CacheMovie searchMovieByTitle(@PathVariable("title") String title) {
         return movieCacheService.findMovieByTitleThroughCache(title);
     }
-
-//    @GetMapping("/test/{title}")
-//    public Movie testSearchDbByTitle(@PathVariable("title") String title) {
-//        return movieCacheService.testDb(title);
-//    }
 }
